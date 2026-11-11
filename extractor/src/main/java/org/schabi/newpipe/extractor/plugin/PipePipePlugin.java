@@ -27,8 +27,12 @@ public interface PipePipePlugin {
     /**
      * Minor version of the plugin API. Minor bumps only add API; a plugin compiled against
      * minor {@code n} can be loaded by any host with minor {@code >= n}.
+     *
+     * <p>1.1 adds {@link PluginImageProvider} / {@link PluginImage} for images the host
+     * cannot fetch or decode on its own, and {@code nsfw} in {@code plugin.json}
+     * ({@link PluginManifest#isNsfw()}).</p>
      */
-    int API_VERSION_MINOR = 0;
+    int API_VERSION_MINOR = 1;
 
     /**
      * @param serviceId the numeric id assigned by the host. It must be passed to the

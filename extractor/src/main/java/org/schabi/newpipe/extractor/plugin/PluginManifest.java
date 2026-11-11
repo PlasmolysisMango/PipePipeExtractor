@@ -29,6 +29,7 @@ import javax.annotation.Nullable;
  *   "legacyServiceId": 1,                     // optional, only for ex built-in services
  *   "description": "...",                     // optional
  *   "icon": "icon.png",                       // optional, path of a PNG/WebP in the package
+ *   "nsfw": true,                             // optional, marks adult content
  *   "settings": [                             // optional
  *     {"key": "instance", "type": "string", "title": "Instance", "default": "https://..."}
  *   ],
@@ -82,6 +83,7 @@ public final class PluginManifest {
     private final PluginLogin login;
     @Nullable
     private final PluginTheme theme;
+    private final boolean nsfw;
 
     private PluginManifest(@Nonnull final String pluginId,
                            @Nonnull final String name,
@@ -96,7 +98,8 @@ public final class PluginManifest {
                            @Nullable final String icon,
                            @Nonnull final List<PluginSetting> settings,
                            @Nullable final PluginLogin login,
-                           @Nullable final PluginTheme theme) {
+                           @Nullable final PluginTheme theme,
+                           final boolean nsfw) {
         this.pluginId = pluginId;
         this.name = name;
         this.versionCode = versionCode;
@@ -111,6 +114,7 @@ public final class PluginManifest {
         this.settings = settings;
         this.login = login;
         this.theme = theme;
+        this.nsfw = nsfw;
     }
 
     @Nonnull
@@ -187,7 +191,8 @@ public final class PluginManifest {
                 icon,
                 Collections.unmodifiableList(settings),
                 login,
-                theme);
+                theme,
+                o.getBoolean("nsfw", false));
     }
 
     public static boolean isValidPluginId(@Nullable final String pluginId) {
@@ -302,5 +307,13 @@ public final class PluginManifest {
     @Nullable
     public PluginTheme getTheme() {
         return theme;
+    }
+
+    /**
+     * @return whether the plugin declares adult content and hosts should hide it unless the
+     * user enabled NSFW content
+     */
+    public boolean isNsfw() {
+        return nsfw;
     }
 }
